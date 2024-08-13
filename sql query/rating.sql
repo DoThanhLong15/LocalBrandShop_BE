@@ -1,0 +1,15 @@
+use localbrandshop;
+
+CREATE TABLE rating (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    content TEXT,	
+    created_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+	updated_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    rating DECIMAL(3,2) NOT NULL DEFAULT (0.00),
+    
+    product_id INT NOT NULL,
+    FOREIGN KEY (product_id) REFERENCES product(id) ON DELETE CASCADE,
+    
+    user_id INT NOT NULL,
+    FOREIGN KEY (user_id) REFERENCES user(id) ON DELETE RESTRICT
+);
