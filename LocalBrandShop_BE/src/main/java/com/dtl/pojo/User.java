@@ -25,8 +25,10 @@ import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
+import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
+import org.hibernate.annotations.UpdateTimestamp;
 
 /**
  *
@@ -69,11 +71,13 @@ public class User implements Serializable {
     @Size(min = 1, max = 50, message = "{user.lastName.size.errMsg}")
     @Column(name = "last_name")
     private String lastName;
+    @CreationTimestamp
     @Column(name = "created_date")
     @Temporal(TemporalType.TIMESTAMP)
     private Date createdDate;
     @Column(name = "updated_date")
     @Temporal(TemporalType.TIMESTAMP)
+    @UpdateTimestamp
     private Date updatedDate;
     @Pattern(regexp = "[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?", 
             message = "{user.email.notValid.errMsg}")
@@ -106,6 +110,7 @@ public class User implements Serializable {
     private String password;
     @Column(name = "active")
     private Boolean active;
+    @NotNull(message = "{user.role.notNull.errMsg}")
     @Size(max = 50)
     @Column(name = "role")
     private String role;

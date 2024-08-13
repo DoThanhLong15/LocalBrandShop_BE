@@ -9,6 +9,7 @@
 <%@ taglib prefix="s" uri="http://www.springframework.org/security/tags" %>
 
 <c:url value="/" var="home"/>
+<c:url value="/user/list" var="user_list"/>
 
 <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
     <div class="container-fluid">
@@ -16,5 +17,12 @@
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#collapsibleNavbar">
             <span class="navbar-toggler-icon"></span>
         </button>
+        <div class="collapse navbar-collapse" id="collapsibleNavbar">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" href="${user_list}">Người dùng</a>
+                </li>
+            </ul>
+        </div>
     </div>
 </nav>

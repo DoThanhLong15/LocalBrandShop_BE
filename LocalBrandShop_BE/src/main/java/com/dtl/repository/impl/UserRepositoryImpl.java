@@ -57,9 +57,9 @@ public class UserRepositoryImpl implements UserRepository{
                 predicates.add(p1);
             }
 
-            String userRoleId = params.get("userRoleId");
-            if (userRoleId != null && !userRoleId.isEmpty()) {
-                Predicate p2 = b.equal(root.get("userRoleId"), Integer.parseInt(userRoleId));
+            String userRole = params.get("role");
+            if (userRole != null && !userRole.isEmpty()) {
+                Predicate p2 = b.equal(root.get("role"), userRole);
                 predicates.add(p2);
             }
 
