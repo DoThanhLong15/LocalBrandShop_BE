@@ -51,8 +51,8 @@ import org.hibernate.annotations.UpdateTimestamp;
     @NamedQuery(name = "User.findByPassword", query = "SELECT u FROM User u WHERE u.password = :password"),
     @NamedQuery(name = "User.findByActive", query = "SELECT u FROM User u WHERE u.active = :active"),
     @NamedQuery(name = "User.findByRole", query = "SELECT u FROM User u WHERE u.role = :role")})
-@DynamicInsert
-@DynamicUpdate
+@DynamicInsert(true)
+@DynamicUpdate(true)
 public class User implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -72,7 +72,7 @@ public class User implements Serializable {
     @Column(name = "last_name")
     private String lastName;
     @CreationTimestamp
-    @Column(name = "created_date")
+    @Column(name = "created_date", updatable = false)
     @Temporal(TemporalType.TIMESTAMP)
     private Date createdDate;
     @Column(name = "updated_date")

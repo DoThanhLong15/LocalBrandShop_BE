@@ -51,9 +51,11 @@ public class UserController {
         return "userForm";
     }
 
-    @PostMapping("/form")
+    @PostMapping("/form/save")
     public String userForm(Model model, @ModelAttribute(value = "user") @Valid User user,
             BindingResult rs) {
+        System.out.println(user);
+        
         if (rs.hasErrors()) {
             return "userForm";
         }

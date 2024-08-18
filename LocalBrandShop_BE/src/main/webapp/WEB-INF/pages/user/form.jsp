@@ -8,7 +8,7 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
-<c:url value="/user/form" var="action" />
+<c:url value="/user/form/save" var="action" />
 <c:set value="ROLE_AMDIN,ROLE_USER" var="roleList" />
 
 <h1 class="text-center text-primary mt-3">QUẢN LÝ NGƯỜI DÙNG</h1>
@@ -75,7 +75,6 @@
     <div class="mb-3 mt-3">
         <form:hidden path="id" />
         <form:hidden path="active" />
-        <form:hidden path="createdDate" />
         <button class="btn btn-success" type="submit">
             <c:choose>
                 <c:when test="${user.id != null}">
