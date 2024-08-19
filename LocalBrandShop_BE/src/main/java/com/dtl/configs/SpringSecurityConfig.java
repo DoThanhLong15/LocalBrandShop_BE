@@ -1,4 +1,4 @@
-    /*
+/*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
@@ -11,6 +11,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -29,7 +30,8 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @ComponentScan(basePackages = {
     "com.dtl.controllers",
     "com.dtl.service",
-    "com.dtl.repository"
+    "com.dtl.repository",
+    "com.dtl.components"
 })
 @Order(2)
 public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
@@ -51,15 +53,14 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-//        http.formLogin().usernameParameter("username").passwordParameter("password");
-//        http.formLogin().defaultSuccessUrl("/").failureUrl("/login?error");
-        
+        http.formLogin().usernameParameter("username").passwordParameter("password");
+        http.formLogin().defaultSuccessUrl("/").failureUrl("/login?error");
+
         http.logout().logoutSuccessUrl("/login");
-        
-//        http.exceptionHandling().accessDeniedPage("/login?accessDenied");
-        
-        http.authorizeRequests().antMatchers("/api/**").permitAll();
-//                .antMatchers("/**").hasRole("ADMIN");
+
+        http.exceptionHandling().accessDeniedPage("/login?accessDenied");
+
+        http.authorizeRequests().antMatchers("/**").hasRole("ADMIN");
 
         http.csrf().disable();
     }

@@ -77,4 +77,11 @@ public class UserServiceImpl implements UserService {
     public User getUserById(int id) {
         return this.userRepo.getUserById(id);
     }
+
+    @Override
+    public boolean authUser(String username, String password) {
+        User  u = this.getUserByUsername(username);
+        
+        return this.passEncoder.matches(password, u.getPassword());
+    }
 }

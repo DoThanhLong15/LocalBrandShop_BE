@@ -4,8 +4,8 @@
  */
 package com.dtl.repository.impl;
 
-import com.dtl.pojo.User;
-import com.dtl.repository.UserRepository;
+import com.dtl.pojo.Category;
+import com.dtl.repository.CategoryRepository;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -26,41 +26,36 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Repository
 @Transactional
-public class UserRepositoryImpl implements UserRepository {
+public class CategoryRepositoryImpl implements CategoryRepository{
 
     private static final int PAGE_SIZE = 4;
     @Autowired
     private LocalSessionFactoryBean factory;
-
+    
     @Override
-    public User getUserByUsername(String username) {
+    public void addOrUpdateCategory(Category category) {
         Session s = this.factory.getObject().getCurrentSession();
-        Query q = s.createNamedQuery("User.findByUsername");
-        q.setParameter("username", username);
-
-        return (User) q.getSingleResult();
+        if (category.getId() != null) {
+            s.update(category);
+        } else {
+            s.save(category);
+        }
     }
 
     @Override
-    public List<User> getUsers(Map<String, String> params) {
+    public List<Category> getCategories(Map<String, String> params) {
         Session s = this.factory.getObject().getCurrentSession();
         CriteriaBuilder b = s.getCriteriaBuilder();
-        CriteriaQuery<User> q = b.createQuery(User.class);
-        Root root = q.from(User.class);
+        CriteriaQuery<Category> q = b.createQuery(Category.class);
+        Root root = q.from(Category.class);
         q.select(root);
 
         if (params != null) {
             List<Predicate> predicates = new ArrayList<>();
             String kw = params.get("q");
             if (kw != null && !kw.isEmpty()) {
-                Predicate p1 = b.like(root.get("firstName"), String.format("%%%s%%", kw));
+                Predicate p1 = b.like(root.get("name"), String.format("%%%s%%", kw));
                 predicates.add(p1);
-            }
-
-            String userRole = params.get("role");
-            if (userRole != null && !userRole.isEmpty()) {
-                Predicate p2 = b.equal(root.get("role"), userRole);
-                predicates.add(p2);
             }
 
             q.where(predicates.toArray(Predicate[]::new));
@@ -83,18 +78,18 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
-    public void addOrUpdateUser(User user) {
+    public Category getCategoryById(int id) {
         Session s = this.factory.getObject().getCurrentSession();
-        if (user.getId() != null) {
-            s.update(user);
-        } else {
-            s.save(user);
-        }
+        return s.get(Category.class, id);
     }
 
     @Override
-    public User getUserById(int id) {
+    public void deleteCategory(int id) {
         Session s = this.factory.getObject().getCurrentSession();
-        return s.get(User.class, id);
+        Category category = this.getCategoryById(id);
+        
+        System.out.println(id);
+        s.delete(category);
     }
+    
 }

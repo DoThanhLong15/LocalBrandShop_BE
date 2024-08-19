@@ -8,8 +8,8 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
-<c:url value="/user/form/save" var="action" />
-<c:set value="ROLE_AMDIN,ROLE_USER" var="roleList" />
+<c:url value="/users/form/save" var="action" />
+<c:set value="ROLE_ADMIN,ROLE_USER" var="roleList" />
 
 <h1 class="text-center text-primary mt-3">QUẢN LÝ NGƯỜI DÙNG</h1>
 <c:if test="${errMsg != null}">
