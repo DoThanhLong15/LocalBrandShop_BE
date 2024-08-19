@@ -8,8 +8,8 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 
-<c:url value="/user/list" var="user_list" />
-<c:url value="/user/form" var="user_form" />
+<c:url value="/users/list" var="user_list" />
+<c:url value="/users/form" var="user_form" />
 
 <h1 class="text-center text-primary mt-3">DANH SÁCH KHÁCH HÀNG</h1>
 <div class="row">
@@ -36,7 +36,7 @@
                 <th></th>
             </tr>
             <c:forEach items="${users}" var="user">
-                <tr id="course${user.id}">
+                <tr id="user-${user.id}">
                     <td>${user.id}</td>
                     <td>${user.lastName} ${user.firstName}</td>
                     <td>${user.role}</td>
@@ -52,8 +52,6 @@
                     </td>
                     <td>
                         <a href="${user_form}/${user.id}" class="btn btn-primary">Sửa</a>
-
-                        <button class="btn btn-warning">Xóa</button>
                     </td>
                 </tr>
             </c:forEach>

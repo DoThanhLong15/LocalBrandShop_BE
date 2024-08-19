@@ -17,6 +17,15 @@ Software Foundation//DTD Tiles Configuration 3.0//EN"
         <put-attribute name="content" value="/WEB-INF/pages/home.jsp" />
     </definition>
     
+    <definition name="categoryList" extends="baseLayout">
+        <put-attribute name="title" value="Người dùng" />
+        <put-attribute name="content" value="/WEB-INF/pages/category/list.jsp" />
+    </definition>
+    <definition name="categoryForm" extends="baseLayout">
+        <put-attribute name="title" value="Người dùng" />
+        <put-attribute name="content" value="/WEB-INF/pages/category/form.jsp" />
+    </definition>
+    
     <definition name="userList" extends="baseLayout">
         <put-attribute name="title" value="Người dùng" />
         <put-attribute name="content" value="/WEB-INF/pages/user/list.jsp" />

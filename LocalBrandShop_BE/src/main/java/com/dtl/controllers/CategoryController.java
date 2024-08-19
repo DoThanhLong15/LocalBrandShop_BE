@@ -4,8 +4,8 @@
  */
 package com.dtl.controllers;
 
-import com.dtl.pojo.User;
-import com.dtl.service.UserService;
+import com.dtl.pojo.Category;
+import com.dtl.service.CategoryService;
 import java.util.Map;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,50 +24,50 @@ import org.springframework.web.bind.annotation.RequestParam;
  * @author LONG
  */
 @Controller
-@RequestMapping("/users")
-public class UserController {
-
+@RequestMapping("/categories")
+public class CategoryController {
     @Autowired
-    private UserService userService;
-
+    private CategoryService cateService;
+    
     @GetMapping("/list")
-    public String userList(Model model, @RequestParam Map<String, String> params) {
-        model.addAttribute("users", this.userService.getUsers(params));
+    public String categoryList(Model model, @RequestParam Map<String, String> params) {
+        model.addAttribute("categories", this.cateService.getCategories(params));
 
-        return "userList";
+        return "categoryList";
     }
     
     @GetMapping("/form")
-    public String userForm(Model model) {
-        model.addAttribute("user", new User());
+    public String categoryForm(Model model) {
+        model.addAttribute("category", new Category());
 
-        return "userForm";
+        return "categoryForm";
     }
 
-    @GetMapping("/form/{userId}")
-    public String detailsView(Model model, @PathVariable(value = "userId") int id) {
-        model.addAttribute("user", this.userService.getUserById(id));
+    @GetMapping("/form/{cateId}")
+    public String categoryForm(Model model, @PathVariable(value = "cateId") int id) {
+        model.addAttribute("category", this.cateService.getCategoryById(id));
 
-        return "userForm";
+        return "categoryForm";
     }
-
+    
     @PostMapping("/form/save")
-    public String userForm(Model model, @ModelAttribute(value = "user") @Valid User user,
+    public String categorySave(Model model, @ModelAttribute(value = "category") @Valid Category category,
             BindingResult rs) {
-        System.out.println(user);
+        
+        System.out.println(category.getDescription());
         
         if (rs.hasErrors()) {
-            return "userForm";
+            return "categoryForm";
         }
 
         try {
-            this.userService.addOrUpdateUser(user);
+            this.cateService.addOrUpdateCategory(category);
             
-            return "redirect:/user/list";
+            return "redirect:/categories/list";
         } catch (Exception ex) {
             model.addAttribute("errMsg", ex.getMessage());
         }
 
-        return "userForm";
+        return "categoryForm";
     }
 }
