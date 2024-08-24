@@ -4,10 +4,14 @@
  */
 package com.dtl.pojo;
 
+import com.dtl.dataTranferObj.ProductQuantityForm;
+import com.dtl.validations.annotation.ProductImageRequired;
+import com.dtl.validations.annotation.ProductQuantityRequired;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -24,10 +28,17 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.DynamicUpdate;
+import org.hibernate.annotations.UpdateTimestamp;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
  *
@@ -45,6 +56,10 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Product.findByPrice", query = "SELECT p FROM Product p WHERE p.price = :price"),
     @NamedQuery(name = "Product.findByRating", query = "SELECT p FROM Product p WHERE p.rating = :rating"),
     @NamedQuery(name = "Product.findByRatingCount", query = "SELECT p FROM Product p WHERE p.ratingCount = :ratingCount")})
+@DynamicInsert
+@DynamicUpdate
+@ProductImageRequired(message = "{product.image.notNull.errMsg}")
+@ProductQuantityRequired(message = "{product.quantity.notNull.errMsg}")
 public class Product implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -54,35 +69,37 @@ public class Product implements Serializable {
     @Column(name = "id")
     private Integer id;
     @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 50)
+    @NotNull(message = "{product.name.notNull.errMsg}")
+    @Size(min = 1, max = 50, message = "{product.name.size.errMsg}")
     @Column(name = "name")
     private String name;
     @Basic(optional = false)
-    @NotNull
-    @Lob
-    @Size(min = 1, max = 65535)
+    @Size(min = 1, max = 65535, message = "{product.description.notNull.errMsg}")
     @Column(name = "description")
     private String description;
-    @Column(name = "created_date")
+    @CreationTimestamp
+    @Column(name = "created_date", updatable = false)
     @Temporal(TemporalType.TIMESTAMP)
     private Date createdDate;
+    @UpdateTimestamp
     @Column(name = "updated_date")
     @Temporal(TemporalType.TIMESTAMP)
     private Date updatedDate;
     @Basic(optional = false)
-    @NotNull
+    @NotNull(message = "{product.price.notNull.errMsg}")
     @Column(name = "price")
+    @Min(value = 1000, message = "{product.price.min.errMsg}")
     private int price;
-    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
+    // @Max(value=?)  
     @Column(name = "rating")
     private BigDecimal rating;
     @Column(name = "rating_count")
     private Integer ratingCount;
     @JoinColumn(name = "category_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
+    @NotNull(message = "{product.cateId.notNull.errMsg}")
     private Category categoryId;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "productId")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "productId", orphanRemoval = true)
     private Collection<ProductImage> productImageCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "productId")
     private Collection<Rating> ratingCollection;
@@ -92,8 +109,13 @@ public class Product implements Serializable {
     private Collection<OrderDetail> orderDetailCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "productId")
     private Collection<Cart> cartCollection;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "productId")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "productId", orphanRemoval = true)
     private Collection<ProductQuantity> productQuantityCollection;
+    
+    @Transient
+    private List<ProductQuantityForm> productQuantityForms;
+    @Transient
+    private List<MultipartFile> files;
 
     public Product() {
     }
@@ -259,5 +281,33 @@ public class Product implements Serializable {
     public String toString() {
         return "com.dtl.pojo.Product[ id=" + id + " ]";
     }
-    
+
+    /**
+     * @return the files
+     */
+    public List<MultipartFile> getFiles() {
+        return files;
+    }
+
+    /**
+     * @param files the files to set
+     */
+    public void setFiles(List<MultipartFile> files) {
+        this.files = files;
+    }
+
+    /**
+     * @return the productQuantityForms
+     */
+    public List<ProductQuantityForm> getProductQuantityForms() {
+        return productQuantityForms;
+    }
+
+    /**
+     * @param productQuantityForms the productQuantityForms to set
+     */
+    public void setProductQuantityForms(List<ProductQuantityForm> productQuantityForms) {
+        this.productQuantityForms = productQuantityForms;
+    }
+
 }

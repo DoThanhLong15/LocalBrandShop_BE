@@ -47,7 +47,6 @@ public class Category implements Serializable {
     @Size(min = 1, max = 50, message = "{category.name.size.errMsg}")
     @Column(name = "name")
     private String name;
-//    @Lob
     @Size(max = 65535)
     @Column(name = "description")
     private String description;

@@ -21,6 +21,10 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.DynamicUpdate;
+import org.hibernate.annotations.UpdateTimestamp;
 
 /**
  *
@@ -35,6 +39,8 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "ProductQuantity.findByQuantity", query = "SELECT p FROM ProductQuantity p WHERE p.quantity = :quantity"),
     @NamedQuery(name = "ProductQuantity.findByCreatedDate", query = "SELECT p FROM ProductQuantity p WHERE p.createdDate = :createdDate"),
     @NamedQuery(name = "ProductQuantity.findByUpdatedDate", query = "SELECT p FROM ProductQuantity p WHERE p.updatedDate = :updatedDate")})
+@DynamicInsert
+@DynamicUpdate
 public class ProductQuantity implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -47,9 +53,11 @@ public class ProductQuantity implements Serializable {
     @NotNull
     @Column(name = "quantity")
     private int quantity;
-    @Column(name = "created_date")
+    @CreationTimestamp
+    @Column(name = "created_date", updatable = false)
     @Temporal(TemporalType.TIMESTAMP)
     private Date createdDate;
+    @UpdateTimestamp
     @Column(name = "updated_date")
     @Temporal(TemporalType.TIMESTAMP)
     private Date updatedDate;

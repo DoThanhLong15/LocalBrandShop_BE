@@ -66,7 +66,8 @@ public class JwtSecurityConfig extends WebSecurityConfigurerAdapter {
         
         http.authorizeRequests().antMatchers("/api/products/").permitAll();
         
-        http.authorizeRequests().antMatchers("/api/products/**").permitAll();
+        http.authorizeRequests()
+                .antMatchers("/api/products/**").permitAll();
         
         http.authorizeRequests()
                 .antMatchers(HttpMethod.DELETE, "/api/categories/**").hasRole("ADMIN")

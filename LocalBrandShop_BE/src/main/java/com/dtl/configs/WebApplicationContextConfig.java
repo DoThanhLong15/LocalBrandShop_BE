@@ -4,6 +4,7 @@
  */
 package com.dtl.configs;
 
+import com.dtl.formatters.CategoryFormatter;
 import com.dtl.formatters.DatetimeFormatter;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
@@ -76,6 +77,7 @@ public class WebApplicationContextConfig implements WebMvcConfigurer{
     
     @Override
     public void addFormatters(FormatterRegistry registry) {
+        registry.addFormatter(new CategoryFormatter());
         registry.addFormatter(new DatetimeFormatter());
     }
 }
