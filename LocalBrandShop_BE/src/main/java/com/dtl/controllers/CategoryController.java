@@ -54,8 +54,6 @@ public class CategoryController {
     public String categorySave(Model model, @ModelAttribute(value = "category") @Valid Category category,
             BindingResult rs) {
         
-        System.out.println(category.getDescription());
-        
         if (rs.hasErrors()) {
             return "categoryForm";
         }

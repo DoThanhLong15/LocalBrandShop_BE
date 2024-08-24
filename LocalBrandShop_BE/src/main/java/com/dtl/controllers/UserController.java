@@ -63,7 +63,7 @@ public class UserController {
         try {
             this.userService.addOrUpdateUser(user);
             
-            return "redirect:/user/list";
+            return "redirect:/users/list";
         } catch (Exception ex) {
             model.addAttribute("errMsg", ex.getMessage());
         }

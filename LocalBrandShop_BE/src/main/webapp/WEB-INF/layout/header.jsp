@@ -13,6 +13,7 @@
 <c:url value="/logout" var="logout"/>
 <c:url value="/users/list" var="user_list"/>
 <c:url value="/categories/list" var="category_list"/>
+<c:url value="/products/list" var="product_list"/>
 
 
 <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
@@ -25,6 +26,9 @@
             <ul class="navbar-nav">
                 <li class="nav-item">
                     <a class="nav-link" href="${category_list}">Danh mục</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="${product_list}">Sản phẩm</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="${user_list}">Người dùng</a>
