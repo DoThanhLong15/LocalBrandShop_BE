@@ -56,7 +56,7 @@ public class ProductController {
     @GetMapping("/form")
     public String productForm(Model model) {
         Product product = new Product();
-        
+
         product.setProductQuantityForms(createQuantityForm(product));
         model.addAttribute("product", product);
 
@@ -66,7 +66,7 @@ public class ProductController {
     @GetMapping("/form/{productId}")
     public String productForm(Model model, @PathVariable(value = "productId") int id) {
         Product product = this.productService.getProductById(id);
-        
+
         model.addAttribute("product", product);
 
         return "productForm";

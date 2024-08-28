@@ -52,13 +52,14 @@
                 <th></th>
             </tr>
             <c:forEach items="${products}" var="product">
-                <tr id="category-${product.id}">
+                <tr id="product-${product.id}">
                     <td>${product.id}</td>
                     <td>${product.name}</td>
                     <td>
                         <a href="${product_form}/${product.id}" class="btn btn-primary">Sửa</a>
 
                         <c:url value="/api/products/${product.id}" var="endpoint" />
+                        <button onclick="deleteItem('${endpoint}', ${product.id}, 'product')" class="btn btn-danger">Xóa</button>
                     </td>
                 </tr>
             </c:forEach>

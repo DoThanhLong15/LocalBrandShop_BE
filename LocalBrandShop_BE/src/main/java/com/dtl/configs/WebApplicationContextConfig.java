@@ -6,6 +6,7 @@ package com.dtl.configs;
 
 import com.dtl.formatters.CategoryFormatter;
 import com.dtl.formatters.DatetimeFormatter;
+import com.dtl.formatters.ProductSizeFormatter;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -33,15 +34,16 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
     "com.dtl.controllers",
     "com.dtl.repository",
     "com.dtl.service"
-})  
+})
 @Order(1)
-public class WebApplicationContextConfig implements WebMvcConfigurer{
+public class WebApplicationContextConfig implements WebMvcConfigurer {
+
     @Override
     public void configureDefaultServletHandling(DefaultServletHandlerConfigurer configurer) {
         configurer.enable();
     }
-    
-      @Bean
+
+    @Bean
     public MessageSource messageSource() {
         ResourceBundleMessageSource m = new ResourceBundleMessageSource();
         m.setBasename("messages");
@@ -74,9 +76,10 @@ public class WebApplicationContextConfig implements WebMvcConfigurer{
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/js/**").addResourceLocations("/resources/js/");
     }
-    
+
     @Override
     public void addFormatters(FormatterRegistry registry) {
+        registry.addFormatter(new ProductSizeFormatter());
         registry.addFormatter(new CategoryFormatter());
         registry.addFormatter(new DatetimeFormatter());
     }

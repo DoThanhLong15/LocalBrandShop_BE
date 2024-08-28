@@ -64,7 +64,7 @@ public class ProductQuantity implements Serializable {
     @JoinColumn(name = "product_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Product productId;
-    @JoinColumn(name = "size_id", referencedColumnName = "id")
+    @JoinColumn(name = "size_id", referencedColumnName = "id", updatable = false)
     @ManyToOne(optional = false)
     private ProductSize sizeId;
 
