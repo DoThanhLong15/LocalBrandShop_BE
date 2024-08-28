@@ -38,7 +38,7 @@
             <c:forEach items="${categories}" var="category">
                 <c:choose>
                     <c:when test="${category.id == product.categoryId.id}">
-                        <option value="${course.id}" selected>${category.name}</option>
+                        <option value="${category.id}" selected>${category.name}</option>
                     </c:when>
                     <c:otherwise>
                         <option value="${category.id}">${category.name}</option>
@@ -49,16 +49,46 @@
     </div>
     <div class="mb-3 mt-3">
         <label>Số lượng theo size</label>
-        <c:forEach items="${product.productQuantityForms}" varStatus="status" var="pgForm">
-            <div class="container mb-3 mt-3">
-                <form:checkbox path="productQuantityForms[${status.index}].selected" class="col-1"/>
-                <label class="col-1">${pgForm.sizeName}</label>
-                <form:input path="productQuantityForms[${status.index}].quantity" min="0" type="number"/>
-                <form:hidden path="productQuantityForms[${status.index}].sizeId"/>
-                <form:hidden path="productQuantityForms[${status.index}].sizeName"/>
-            </div>
-        </c:forEach>
+        <c:choose>
+            <c:when test="${product.id != null}">
+                <c:forEach items="${product.productQuantityCollection}" varStatus="status" var="pgForm">
+                    <div class="container mb-3 mt-3">
+                        <label class="col-1">${pgForm.sizeId.size}</label>
+                        <form:hidden path="productQuantityCollection[${status.index}].id"/>
+                        <form:input path="productQuantityCollection[${status.index}].quantity" min="0" type="number"/>
+
+                        <form:hidden path="productQuantityCollection[${status.index}].sizeId.id"/>
+                        <form:hidden path="productQuantityCollection[${status.index}].sizeId.size"/>
+                    </div>
+                </c:forEach>
+            </c:when>
+            <c:otherwise>
+                <c:forEach items="${product.productQuantityForms}" varStatus="status" var="pgForm">
+                    <div class="container mb-3 mt-3">
+                        <label class="col-1">${pgForm.sizeName}</label>
+                        <form:input path="productQuantityForms[${status.index}].quantity" min="0" type="number"/>
+                        <form:hidden path="productQuantityForms[${status.index}].sizeId"/>
+                        <form:hidden path="productQuantityForms[${status.index}].sizeName"/>
+                    </div>
+                </c:forEach>
+            </c:otherwise>
+        </c:choose>
     </div>
+
+    <c:if test="${product.id != null}">
+        <div class="mb-3 mt-3">
+            <label>Ảnh sản phẩm</label>
+            <div class="container d-flex align-items-center">
+                <c:forEach items="${product.productImageCollection}" varStatus="status" var="productImage">
+                    <div class="p-1 col-1">
+                        <img src="${productImage.image}" width="100%"/>
+                        <form:hidden path="productImageCollection[${status.index}].id"/>
+                        <form:hidden path="productImageCollection[${status.index}].image"/>
+                    </div>
+                </c:forEach>
+            </div>
+        </div>
+    </c:if>
     <div class="mb-3 mt-3">
         <label>Thêm ảnh</label>
         <div class="dropzone mb-3 mt-3" id="productImagesDropzone"></div>

@@ -100,7 +100,7 @@ public class Product implements Serializable {
     @NotNull(message = "{product.cateId.notNull.errMsg}")
     private Category categoryId;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "productId", orphanRemoval = true)
-    private Collection<ProductImage> productImageCollection;
+    private List<ProductImage> productImageCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "productId")
     private Collection<Rating> ratingCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "productId")
@@ -110,7 +110,7 @@ public class Product implements Serializable {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "productId")
     private Collection<Cart> cartCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "productId", orphanRemoval = true)
-    private Collection<ProductQuantity> productQuantityCollection;
+    private List<ProductQuantity> productQuantityCollection;
     
     @Transient
     private List<ProductQuantityForm> productQuantityForms;
@@ -204,11 +204,11 @@ public class Product implements Serializable {
     }
 
     @XmlTransient
-    public Collection<ProductImage> getProductImageCollection() {
+    public List<ProductImage> getProductImageCollection() {
         return productImageCollection;
     }
 
-    public void setProductImageCollection(Collection<ProductImage> productImageCollection) {
+    public void setProductImageCollection(List<ProductImage> productImageCollection) {
         this.productImageCollection = productImageCollection;
     }
 
@@ -249,11 +249,11 @@ public class Product implements Serializable {
     }
 
     @XmlTransient
-    public Collection<ProductQuantity> getProductQuantityCollection() {
+    public List<ProductQuantity> getProductQuantityCollection() {
         return productQuantityCollection;
     }
 
-    public void setProductQuantityCollection(Collection<ProductQuantity> productQuantityCollection) {
+    public void setProductQuantityCollection(List<ProductQuantity> productQuantityCollection) {
         this.productQuantityCollection = productQuantityCollection;
     }
 

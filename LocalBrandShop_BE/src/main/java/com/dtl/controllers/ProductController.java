@@ -10,15 +10,18 @@ import com.dtl.pojo.ProductSize;
 import com.dtl.service.CategoryService;
 import com.dtl.service.ProductService;
 import com.dtl.service.ProductSizeService;
-import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -48,6 +51,7 @@ public class ProductController {
 
     @GetMapping("/list")
     public String productList(Model model, @RequestParam Map<String, String> params) {
+        
         model.addAttribute("products", this.productService.getProducts(params));
 
         return "productList";
@@ -56,7 +60,7 @@ public class ProductController {
     @GetMapping("/form")
     public String productForm(Model model) {
         Product product = new Product();
-        
+
         product.setProductQuantityForms(createQuantityForm(product));
         model.addAttribute("product", product);
 
@@ -66,7 +70,7 @@ public class ProductController {
     @GetMapping("/form/{productId}")
     public String productForm(Model model, @PathVariable(value = "productId") int id) {
         Product product = this.productService.getProductById(id);
-        
+
         model.addAttribute("product", product);
 
         return "productForm";
@@ -93,6 +97,15 @@ public class ProductController {
         }
 
         return "productForm";
+    }
+    
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteProduct(@PathVariable("id") int id) {
+        this.productService.deleteProduct(id);
+        
+        System.out.println(id);
+        
+        return ResponseEntity.noContent().build();
     }
 
     private List<ProductQuantityForm> createQuantityForm(Product product) {

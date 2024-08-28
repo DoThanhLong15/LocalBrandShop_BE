@@ -44,7 +44,7 @@ public class ProductImage implements Serializable {
     @Size(min = 1, max = 255)
     @Column(name = "image")
     private String image;
-    @JoinColumn(name = "product_id", referencedColumnName = "id")
+    @JoinColumn(name = "product_id", referencedColumnName = "id", updatable = false)
     @ManyToOne(optional = false)
     private Product productId;
 

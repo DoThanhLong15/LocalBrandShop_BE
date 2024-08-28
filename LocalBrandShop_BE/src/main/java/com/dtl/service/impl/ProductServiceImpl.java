@@ -6,10 +6,11 @@ package com.dtl.service.impl;
 
 import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
-import com.dtl.dataTranferObj.ProductQuantityForm;
 import com.dtl.pojo.Product;
 import com.dtl.pojo.ProductImage;
 import com.dtl.pojo.ProductQuantity;
+import com.dtl.repository.ProductImageRepository;
+import com.dtl.repository.ProductQuantityRepository;
 import com.dtl.repository.ProductRepository;
 import com.dtl.repository.ProductSizeRepository;
 import com.dtl.service.ProductService;
@@ -21,7 +22,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
 /**
  *
@@ -36,6 +36,10 @@ public class ProductServiceImpl implements ProductService {
     private Cloudinary cloudinary;
     @Autowired
     private ProductSizeRepository productSizeRepo;
+    @Autowired
+    private ProductQuantityRepository productQuantityRepo;
+    @Autowired
+    private ProductImageRepository productImageRepo;
 
     @Override
     public void saveProduct(Product product) {
@@ -63,19 +67,20 @@ public class ProductServiceImpl implements ProductService {
             image.setProductId(product);
         }
 
-        if (!product.getProductQuantityForms().isEmpty()) {
-            product.setProductQuantityCollection(new ArrayList<>());
+        if (product.getId() == null) {
+            if (!product.getProductQuantityForms().isEmpty()) {
+                product.setProductQuantityCollection(new ArrayList<>());
 
-            product.getProductQuantityForms().stream()
-                    .filter(productQuantityForm -> productQuantityForm.isSelected())
-                    .forEach(pqForm -> {
-                        ProductQuantity productQuantity = new ProductQuantity();
-                        productQuantity.setProductId(product);
-                        productQuantity.setSizeId(this.productSizeRepo.getProductSizeById(pqForm.getSizeId()));
-                        productQuantity.setQuantity(pqForm.getQuantity());
+                product.getProductQuantityForms().stream()
+                        .forEach(pqForm -> {
+                            ProductQuantity productQuantity = new ProductQuantity();
+                            productQuantity.setProductId(product);
+                            productQuantity.setSizeId(this.productSizeRepo.getProductSizeById(pqForm.getSizeId()));
+                            productQuantity.setQuantity(pqForm.getQuantity());
 
-                        product.getProductQuantityCollection().add(productQuantity);
-                    });
+                            product.getProductQuantityCollection().add(productQuantity);
+                        });
+            }
         }
 
         for (ProductQuantity quantity : product.getProductQuantityCollection()) {
@@ -92,7 +97,12 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public Product getProductById(int id) {
-        return this.productRepo.getProductById(id);
+        Product product = this.productRepo.getProductById(id);
+
+        product.setProductQuantityCollection(this.productQuantityRepo.getProductQuantityByProductId(id));
+        product.setProductImageCollection(this.productImageRepo.getProductImagesByProductId(id));
+
+        return product;
     }
 
     @Override

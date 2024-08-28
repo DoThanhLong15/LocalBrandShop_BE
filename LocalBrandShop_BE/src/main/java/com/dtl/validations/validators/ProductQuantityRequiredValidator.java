@@ -23,16 +23,17 @@ public class ProductQuantityRequiredValidator implements ConstraintValidator<Pro
 
     @Override
     public boolean isValid(Product product, ConstraintValidatorContext context) {
-        if (product.getProductQuantityForms() == null) {
-            return false;
+        if (product.getId() == null) {
+            if (product.getProductQuantityForms() == null) {
+                return false;
+            }
+            
+            return product.getProductQuantityForms().stream()
+                    .anyMatch(quantity -> quantity.getQuantity() > 0);
         }
 
-        if (!product.getProductQuantityForms().stream()
-                .anyMatch(quantitySize -> quantitySize.isSelected())) {
-            return false;
-        }
-
-        return true;
+        return product.getProductQuantityCollection().stream()
+                .anyMatch(quantity -> quantity.getQuantity() > 0);
     }
 
 }

@@ -6,6 +6,7 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="s" uri="http://www.springframework.org/security/tags" %>
 <!DOCTYPE html>
 
 <c:url value="/products/list" var="product_list" />
@@ -52,13 +53,14 @@
                 <th></th>
             </tr>
             <c:forEach items="${products}" var="product">
-                <tr id="category-${product.id}">
+                <tr id="product-${product.id}">
                     <td>${product.id}</td>
                     <td>${product.name}</td>
                     <td>
                         <a href="${product_form}/${product.id}" class="btn btn-primary">Sửa</a>
 
-                        <c:url value="/api/products/${product.id}" var="endpoint" />
+                        <c:url value="/products/${product.id}" var="endpoint" />
+                        <button onclick="deleteItem('${endpoint}', ${product.id}, 'product')" class="btn btn-danger">Xóa</button>
                     </td>
                 </tr>
             </c:forEach>

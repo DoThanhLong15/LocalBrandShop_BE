@@ -15,21 +15,24 @@ import org.springframework.web.multipart.MultipartFile;
  *
  * @author LONG
  */
-public class ProductImageRequiredValidator implements ConstraintValidator<ProductImageRequired, Product>{
+public class ProductImageRequiredValidator implements ConstraintValidator<ProductImageRequired, Product> {
 
     @Override
     public void initialize(ProductImageRequired constraintAnnotation) {
-        
+
     }
 
     @Override
     public boolean isValid(Product product, ConstraintValidatorContext context) {
-        if (product.getId() == null) {
-            List<MultipartFile> files = product.getFiles();
-            return files != null && !files.isEmpty() && files.stream().noneMatch(MultipartFile::isEmpty);
+        if (product.getFiles() != null && !product.getFiles().isEmpty()) {
+            return true;
         }
         
-        return true;
+        if (product.getProductImageCollection()!= null && !product.getProductImageCollection().isEmpty()) {
+            return true;
+        }
+        
+        return false;
     }
-    
+
 }

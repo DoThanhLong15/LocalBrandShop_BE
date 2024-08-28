@@ -4,10 +4,9 @@
  */
 package com.dtl.repository.impl;
 
-import com.dtl.pojo.ProductImage;
-import com.dtl.repository.ProductImageRepository;
+import com.dtl.pojo.ProductQuantity;
+import com.dtl.repository.ProductQuantityRepository;
 import java.util.List;
-import java.util.Map;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
@@ -24,22 +23,22 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Repository
 @Transactional
-public class ProductImageRepositoryImpl implements ProductImageRepository {
+public class ProductQuantityRepositoryImpl implements ProductQuantityRepository{
     
     @Autowired
     private LocalSessionFactoryBean factory;
 
     @Override
-    public List<ProductImage> getProductImagesByProductId(int productId) {
+    public List<ProductQuantity> getProductQuantityByProductId(int productId) {
         Session s = this.factory.getObject().getCurrentSession();
         CriteriaBuilder builder = s.getCriteriaBuilder();
-        CriteriaQuery<ProductImage> query = builder.createQuery(ProductImage.class);
-        Root root = query.from(ProductImage.class);
+        CriteriaQuery<ProductQuantity> query = builder.createQuery(ProductQuantity.class);
+        Root root = query.from(ProductQuantity.class);
 
         Predicate predicate = builder.equal(root.get("productId"), productId);
         query.select(root).where(predicate);
 
         return s.createQuery(query).getResultList();
     }
-
+    
 }

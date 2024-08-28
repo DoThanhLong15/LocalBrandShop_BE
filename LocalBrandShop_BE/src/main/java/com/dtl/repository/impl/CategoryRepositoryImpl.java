@@ -9,6 +9,7 @@ import com.dtl.repository.CategoryRepository;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import javax.persistence.EntityNotFoundException;
 import javax.persistence.Query;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -88,7 +89,9 @@ public class CategoryRepositoryImpl implements CategoryRepository{
         Session s = this.factory.getObject().getCurrentSession();
         Category category = this.getCategoryById(id);
         
-        System.out.println(id);
+        if(category == null)
+            throw new EntityNotFoundException("Không tìm thấy category: " + id);
+        
         s.delete(category);
     }
     

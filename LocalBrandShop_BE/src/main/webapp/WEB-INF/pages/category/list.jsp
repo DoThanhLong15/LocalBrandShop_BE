@@ -41,7 +41,7 @@
                     <td>
                         <a href="${category_form}/${category.id}" class="btn btn-primary">Sửa</a>
                         
-                        <c:url value="/api/categories/${category.id}" var="endpoint" />
+                        <c:url value="/categories/${category.id}" var="endpoint" />
                         <button onclick="deleteItem('${endpoint}', ${category.id}, 'category')" class="btn btn-danger">Xóa</button>
                     </td>
                 </tr>

@@ -4,14 +4,13 @@
  */
 package com.dtl.repository;
 
-import com.dtl.pojo.ProductImage;
+import com.dtl.pojo.ProductQuantity;
 import java.util.List;
-import java.util.Map;
 
 /**
  *
  * @author LONG
  */
-public interface ProductImageRepository {
-    List<ProductImage> getProductImagesByProductId(int productId);
+public interface ProductQuantityRepository {
+    List<ProductQuantity> getProductQuantityByProductId(int productId);
 }
