@@ -16,7 +16,6 @@ import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
-import javax.persistence.PreRemove;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -121,12 +120,5 @@ public class Category implements Serializable {
     @Override
     public String toString() {
         return "com.dtl.pojo.Category[ id=" + id + " ]";
-    }
-
-    @PreRemove
-    private void checkProductBeforeDelete() {
-        if (!this.productCollection.isEmpty()) {
-            throw new IllegalStateException("Có sản phẩm trong danh mục này");
-        }
     }
 }

@@ -6,9 +6,12 @@ package com.dtl.controllers;
 
 import com.dtl.pojo.Category;
 import com.dtl.service.CategoryService;
+import java.util.Locale;
 import java.util.Map;
+import javax.persistence.EntityNotFoundException;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -72,9 +75,16 @@ public class CategoryController {
     }
     
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteCategory(@PathVariable("id") int id) {
-        this.cateService.deleteCategory(id);
-        
-        return ResponseEntity.noContent().build();
+    public ResponseEntity<String> deleteCategory(@PathVariable("id") int id, Locale locale) {
+        try {
+            this.cateService.deleteCategory(id);
+            return ResponseEntity.noContent().build();
+        } catch (EntityNotFoundException ex) {
+            return ResponseEntity.badRequest().body("Không tìm thấy danh mục");
+        } catch (IllegalStateException ex) {
+            return ResponseEntity.badRequest().body("Tồn tại sản phẩm trong danh mục này");
+        } catch (Exception ex) {
+            return ResponseEntity.badRequest().body("Lỗi hệ thống");
+        }
     }
 }
