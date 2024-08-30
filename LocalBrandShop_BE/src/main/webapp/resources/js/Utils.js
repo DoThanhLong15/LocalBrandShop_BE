@@ -7,8 +7,11 @@ function deleteItem(endpoint, id, itemName) {
             if (res.status === 204) {
                 let d = document.getElementById(`${itemName}-${id}`);
                 d.style.display = "none";
+                
             } else {
-                alert("Something Wrong!");
+                console.log(res.json().body);
+                
+                alert(res.body());
             }
 
         });

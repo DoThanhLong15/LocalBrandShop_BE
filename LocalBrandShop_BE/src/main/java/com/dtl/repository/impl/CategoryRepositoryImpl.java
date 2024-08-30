@@ -6,7 +6,9 @@ package com.dtl.repository.impl;
 
 import com.dtl.pojo.Category;
 import com.dtl.repository.CategoryRepository;
+import com.dtl.repository.ProductRepository;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import javax.persistence.EntityNotFoundException;
@@ -32,6 +34,8 @@ public class CategoryRepositoryImpl implements CategoryRepository{
     private static final int PAGE_SIZE = 4;
     @Autowired
     private LocalSessionFactoryBean factory;
+    @Autowired
+    private ProductRepository productRepo;
     
     @Override
     public void addOrUpdateCategory(Category category) {
@@ -81,7 +85,18 @@ public class CategoryRepositoryImpl implements CategoryRepository{
     @Override
     public Category getCategoryById(int id) {
         Session s = this.factory.getObject().getCurrentSession();
-        return s.get(Category.class, id);
+        
+        Category category = s.get(Category.class, id);
+        
+        if(category == null)
+            throw new EntityNotFoundException("Không tìm thấy category: " + id);
+        
+        Map<String, String> params = new HashMap<>();
+        params.put("cateId", category.getId().toString());
+        
+        category.setProductCollection(this.productRepo.getProducts(params));
+        
+        return category;
     }
 
     @Override
@@ -89,10 +104,10 @@ public class CategoryRepositoryImpl implements CategoryRepository{
         Session s = this.factory.getObject().getCurrentSession();
         Category category = this.getCategoryById(id);
         
-        if(category == null)
-            throw new EntityNotFoundException("Không tìm thấy category: " + id);
+        if(!category.getProductCollection().isEmpty())
+            throw new IllegalStateException("Tồn tại sản phẩm trong danh mục này!");
         
-        s.delete(category);
+//        s.delete(category);
     }
     
 }
