@@ -28,13 +28,17 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class ProductRepositoryImpl implements ProductRepository {
 
-    private static final int PAGE_SIZE = 4;
+    private static final int PAGE_SIZE = 8;
     @Autowired
     private LocalSessionFactoryBean factory;
 
+    public static int getPageSize() {
+        return PAGE_SIZE;
+    }
+
     @Override
     public void saveProduct(Product product) {
-        
+
         Session s = this.factory.getObject().getCurrentSession();
         if (product.getId() != null) {
             s.update(product);
@@ -104,7 +108,7 @@ public class ProductRepositoryImpl implements ProductRepository {
     }
 
     @Override
-    public void deleteProduct(int id) {        
+    public void deleteProduct(int id) {
         Session s = this.factory.getObject().getCurrentSession();
         Product p = this.getProductById(id);
         s.delete(p);

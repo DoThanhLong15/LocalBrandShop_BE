@@ -30,8 +30,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Repository
 @Transactional
 public class CategoryRepositoryImpl implements CategoryRepository{
-
-    private static final int PAGE_SIZE = 4;
+    
     @Autowired
     private LocalSessionFactoryBean factory;
     @Autowired
@@ -66,20 +65,7 @@ public class CategoryRepositoryImpl implements CategoryRepository{
             q.where(predicates.toArray(Predicate[]::new));
         }
 
-        Query query = s.createQuery(q);
-
-        if (params != null) {
-            String page = params.get("page");
-            if (page != null && !page.isEmpty()) {
-                int p = Integer.parseInt(page);
-                int start = (p - 1) * PAGE_SIZE;
-
-                query.setFirstResult(start);
-                query.setMaxResults(PAGE_SIZE);
-            }
-        }
-
-        return query.getResultList();
+        return s.createQuery(q).getResultList();
     }
 
     @Override
@@ -107,7 +93,8 @@ public class CategoryRepositoryImpl implements CategoryRepository{
         if(!category.getProductCollection().isEmpty())
             throw new IllegalStateException("Tồn tại sản phẩm trong danh mục này!");
         
-//        s.delete(category);
+        System.out.println(1);
+        s.delete(category);
     }
     
 }

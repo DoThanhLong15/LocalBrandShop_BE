@@ -83,12 +83,12 @@ public class User implements Serializable {
             message = "{user.email.notValid.errMsg}")
     @Basic(optional = false)
     @NotNull(message = "{user.email.notNull.errMsg}")
-    @Size(min = 1, max = 255)
+    @Size(min = 1, max = 255, message = "{user.email.notNull.errMsg}")
     @Column(name = "email")
     private String email;
     @Basic(optional = false)
     @NotNull(message = "{user.address.notNull.errMsg}")
-    @Size(min = 1, max = 255)
+    @Size(min = 1, max = 255, message = "{user.address.notNull.errMsg}")
     @Column(name = "address")
     private String address;
     @Pattern(regexp = "^\\(?(\\d{3})\\)?[- ]?(\\d{3})[- ]?(\\d{4})$", 
@@ -114,13 +114,13 @@ public class User implements Serializable {
     @Size(max = 50)
     @Column(name = "role")
     private String role;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "userId")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "userId", orphanRemoval = true)
     private Collection<Rating> ratingCollection;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "userId")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "userId", orphanRemoval = false)
     private Collection<SaleOrder> saleOrderCollection;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "userId")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "userId", orphanRemoval = true)
     private Collection<FavouriteProduct> favouriteProductCollection;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "userId")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "userId", orphanRemoval = true)
     private Collection<Cart> cartCollection;
 
     public User() {

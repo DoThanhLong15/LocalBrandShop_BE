@@ -4,7 +4,7 @@
  */
 package com.dtl.controllers;
 
-import com.dtl.dataTranferObj.ProductQuantityForm;
+import com.dtl.DTO.ProductQuantityForm;
 import com.dtl.pojo.Product;
 import com.dtl.pojo.ProductSize;
 import com.dtl.service.CategoryService;

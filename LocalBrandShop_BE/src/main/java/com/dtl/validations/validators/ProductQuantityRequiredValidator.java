@@ -4,7 +4,7 @@
  */
 package com.dtl.validations.validators;
 
-import com.dtl.dataTranferObj.ProductQuantityForm;
+import com.dtl.DTO.ProductQuantityForm;
 import com.dtl.pojo.Product;
 import com.dtl.validations.annotation.ProductQuantityRequired;
 import javax.validation.ConstraintValidator;

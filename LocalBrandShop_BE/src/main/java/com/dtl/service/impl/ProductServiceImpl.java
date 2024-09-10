@@ -13,6 +13,7 @@ import com.dtl.repository.ProductImageRepository;
 import com.dtl.repository.ProductQuantityRepository;
 import com.dtl.repository.ProductRepository;
 import com.dtl.repository.ProductSizeRepository;
+import com.dtl.repository.impl.ProductRepositoryImpl;
 import com.dtl.service.ProductService;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -54,6 +55,7 @@ public class ProductServiceImpl implements ProductService {
 
                         ProductImage productImage = new ProductImage();
                         productImage.setImage(res.get("secure_url").toString());
+                        productImage.setProductId(product);
 
                         product.getProductImageCollection().add(productImage);
                     }
@@ -61,10 +63,6 @@ public class ProductServiceImpl implements ProductService {
                     Logger.getLogger(ProductServiceImpl.class.getName()).log(Level.SEVERE, "Error uploading file: " + file.getOriginalFilename(), ex);
                 }
             });
-        }
-
-        for (ProductImage image : product.getProductImageCollection()) {
-            image.setProductId(product);
         }
 
         if (product.getId() == null) {
@@ -77,14 +75,11 @@ public class ProductServiceImpl implements ProductService {
                             productQuantity.setProductId(product);
                             productQuantity.setSizeId(this.productSizeRepo.getProductSizeById(pqForm.getSizeId()));
                             productQuantity.setQuantity(pqForm.getQuantity());
+                            productQuantity.setProductId(product);
 
                             product.getProductQuantityCollection().add(productQuantity);
                         });
             }
-        }
-
-        for (ProductQuantity quantity : product.getProductQuantityCollection()) {
-            quantity.setProductId(product);
         }
 
         this.productRepo.saveProduct(product);
@@ -108,6 +103,10 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public void deleteProduct(int id) {
         this.productRepo.deleteProduct(id);
+    }
+
+    public static Integer getPageSize() {
+        return ProductRepositoryImpl.getPageSize();
     }
 
 }
