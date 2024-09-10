@@ -4,6 +4,7 @@
  */
 package com.dtl.controllers;
 
+import com.dtl.components.ErrorResponseUtil;
 import com.dtl.pojo.Category;
 import com.dtl.service.CategoryService;
 import java.util.Locale;
@@ -33,6 +34,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class CategoryController {
     @Autowired
     private CategoryService cateService;
+    @Autowired
+    private ErrorResponseUtil errorResponseUtil;
     
     @GetMapping("/list")
     public String categoryList(Model model, @RequestParam Map<String, String> params) {
@@ -75,16 +78,19 @@ public class CategoryController {
     }
     
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteCategory(@PathVariable("id") int id, Locale locale) {
+    public ResponseEntity<Object> deleteCategory(@PathVariable("id") int id, Locale locale) {
         try {
             this.cateService.deleteCategory(id);
             return ResponseEntity.noContent().build();
         } catch (EntityNotFoundException ex) {
-            return ResponseEntity.badRequest().body("Không tìm thấy danh mục");
+            System.out.println(ex.getMessage());
+            return errorResponseUtil.buildErrorResponse("category.notFound.errMsg", locale);
         } catch (IllegalStateException ex) {
-            return ResponseEntity.badRequest().body("Tồn tại sản phẩm trong danh mục này");
+            System.out.println(ex.getMessage());
+            return errorResponseUtil.buildErrorResponse("category.hasProduct.errMsg", locale);
         } catch (Exception ex) {
-            return ResponseEntity.badRequest().body("Lỗi hệ thống");
+            System.out.println(ex.getMessage());
+            return errorResponseUtil.buildErrorResponse("system.errMsg", locale);
         }
     }
 }

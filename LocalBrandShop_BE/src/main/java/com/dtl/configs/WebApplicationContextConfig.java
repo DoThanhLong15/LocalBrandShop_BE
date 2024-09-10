@@ -33,7 +33,8 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @ComponentScan(basePackages = {
     "com.dtl.controllers",
     "com.dtl.repository",
-    "com.dtl.service"
+    "com.dtl.service",
+    "com.dtl.components"
 })
 @Order(1)
 public class WebApplicationContextConfig implements WebMvcConfigurer {
@@ -47,6 +48,7 @@ public class WebApplicationContextConfig implements WebMvcConfigurer {
     public MessageSource messageSource() {
         ResourceBundleMessageSource m = new ResourceBundleMessageSource();
         m.setBasename("messages");
+        m.setDefaultEncoding("UTF-8");
 
         return m;
     }

@@ -4,7 +4,7 @@
  */
 package com.dtl.pojo;
 
-import com.dtl.dataTranferObj.ProductQuantityForm;
+import com.dtl.DTO.ProductQuantityForm;
 import com.dtl.validations.annotation.ProductImageRequired;
 import com.dtl.validations.annotation.ProductQuantityRequired;
 import java.io.Serializable;
@@ -101,13 +101,13 @@ public class Product implements Serializable {
     private Category categoryId;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "productId", orphanRemoval = true)
     private List<ProductImage> productImageCollection;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "productId")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "productId", orphanRemoval = true)
     private Collection<Rating> ratingCollection;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "productId")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "productId", orphanRemoval = true)
     private Collection<FavouriteProduct> favouriteProductCollection;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "productId")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "productId", orphanRemoval = false)
     private Collection<OrderDetail> orderDetailCollection;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "productId")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "productId", orphanRemoval = true)
     private Collection<Cart> cartCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "productId", orphanRemoval = true)
     private List<ProductQuantity> productQuantityCollection;

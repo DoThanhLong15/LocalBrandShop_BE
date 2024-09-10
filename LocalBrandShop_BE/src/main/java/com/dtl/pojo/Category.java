@@ -49,7 +49,7 @@ public class Category implements Serializable {
     @Size(max = 65535)
     @Column(name = "description")
     private String description;
-    @OneToMany(cascade={CascadeType.PERSIST, CascadeType.MERGE}, mappedBy = "categoryId")
+    @OneToMany(cascade={CascadeType.PERSIST, CascadeType.MERGE}, mappedBy = "categoryId", orphanRemoval = false)
     private Collection<Product> productCollection;
 
     public Category() {
