@@ -56,7 +56,9 @@
                         <label class="col-1">${pgForm.sizeId.size}</label>
                         <form:hidden path="productQuantityCollection[${status.index}].id"/>
                         <form:input path="productQuantityCollection[${status.index}].quantity" min="0" type="number"/>
-
+                        
+                        <form:hidden path="productQuantityCollection[${status.index}].productId"/>
+                        
                         <form:hidden path="productQuantityCollection[${status.index}].sizeId.id"/>
                         <form:hidden path="productQuantityCollection[${status.index}].sizeId.size"/>
                     </div>
@@ -84,6 +86,7 @@
                         <img src="${productImage.image}" width="100%"/>
                         <form:hidden path="productImageCollection[${status.index}].id"/>
                         <form:hidden path="productImageCollection[${status.index}].image"/>
+                        <form:hidden path="productImageCollection[${status.index}].productId"/>
                     </div>
                 </c:forEach>
             </div>

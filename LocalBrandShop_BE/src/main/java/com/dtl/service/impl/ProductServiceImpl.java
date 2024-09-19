@@ -9,8 +9,6 @@ import com.cloudinary.utils.ObjectUtils;
 import com.dtl.pojo.Product;
 import com.dtl.pojo.ProductImage;
 import com.dtl.pojo.ProductQuantity;
-import com.dtl.repository.ProductImageRepository;
-import com.dtl.repository.ProductQuantityRepository;
 import com.dtl.repository.ProductRepository;
 import com.dtl.repository.ProductSizeRepository;
 import com.dtl.repository.impl.ProductRepositoryImpl;
@@ -37,10 +35,6 @@ public class ProductServiceImpl implements ProductService {
     private Cloudinary cloudinary;
     @Autowired
     private ProductSizeRepository productSizeRepo;
-    @Autowired
-    private ProductQuantityRepository productQuantityRepo;
-    @Autowired
-    private ProductImageRepository productImageRepo;
 
     @Override
     public void saveProduct(Product product) {
@@ -92,12 +86,7 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public Product getProductById(int id) {
-        Product product = this.productRepo.getProductById(id);
-
-        product.setProductQuantityCollection(this.productQuantityRepo.getProductQuantityByProductId(id));
-        product.setProductImageCollection(this.productImageRepo.getProductImagesByProductId(id));
-
-        return product;
+        return this.productRepo.getProductById(id);
     }
 
     @Override
@@ -107,6 +96,11 @@ public class ProductServiceImpl implements ProductService {
 
     public static Integer getPageSize() {
         return ProductRepositoryImpl.getPageSize();
+    }
+
+    @Override
+    public int getTotalProduct() {
+        return this.productRepo.getTotalProduct();
     }
 
 }

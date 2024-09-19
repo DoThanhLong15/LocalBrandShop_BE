@@ -7,6 +7,7 @@ package com.dtl.repository.impl;
 import com.dtl.pojo.ProductSize;
 import com.dtl.repository.ProductSizeRepository;
 import java.util.List;
+import javax.persistence.EntityNotFoundException;
 import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
@@ -34,7 +35,13 @@ public class ProductSizeRepositoryImpl implements ProductSizeRepository {
     @Override
     public ProductSize getProductSizeById(int id) {
         Session s = this.factory.getObject().getCurrentSession();
-        return s.get(ProductSize.class, id);
+        
+        ProductSize productSize = s.get(ProductSize.class, id);
+        
+        if (productSize == null) {
+            throw new EntityNotFoundException("productSize.notFound.errMsg");
+        }
+        return productSize;
     }
 
 }
