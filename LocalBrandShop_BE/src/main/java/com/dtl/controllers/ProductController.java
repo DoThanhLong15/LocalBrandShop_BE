@@ -8,6 +8,8 @@ import com.dtl.DTO.ProductQuantityForm;
 import com.dtl.pojo.Product;
 import com.dtl.pojo.ProductSize;
 import com.dtl.service.CategoryService;
+import com.dtl.service.ProductImageService;
+import com.dtl.service.ProductQuantityService;
 import com.dtl.service.ProductService;
 import com.dtl.service.ProductSizeService;
 import java.util.List;
@@ -43,6 +45,10 @@ public class ProductController {
     private CategoryService cateService;
     @Autowired
     private ProductSizeService productSizeService;
+    @Autowired
+    private ProductQuantityService productQuantityService;
+    @Autowired
+    private ProductImageService productImageService;
 
     @ModelAttribute
     public void commonAttributes(Model model) {
@@ -51,7 +57,7 @@ public class ProductController {
 
     @GetMapping("/list")
     public String productList(Model model, @RequestParam Map<String, String> params) {
-        
+
         model.addAttribute("products", this.productService.getProducts(params));
 
         return "productList";
@@ -70,6 +76,9 @@ public class ProductController {
     @GetMapping("/form/{productId}")
     public String productForm(Model model, @PathVariable(value = "productId") int id) {
         Product product = this.productService.getProductById(id);
+        
+        product.setProductImageCollection(this.productImageService.getProductImagesByProductId(id));
+        product.setProductQuantityCollection(this.productQuantityService.getProductQuantityByProductId(id));
 
         model.addAttribute("product", product);
 
@@ -98,13 +107,11 @@ public class ProductController {
 
         return "productForm";
     }
-    
+
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteProduct(@PathVariable("id") int id) {
         this.productService.deleteProduct(id);
-        
-        System.out.println(id);
-        
+
         return ResponseEntity.noContent().build();
     }
 

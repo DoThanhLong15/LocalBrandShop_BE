@@ -29,13 +29,13 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Repository
 @Transactional
-public class CategoryRepositoryImpl implements CategoryRepository{
-    
+public class CategoryRepositoryImpl implements CategoryRepository {
+
     @Autowired
     private LocalSessionFactoryBean factory;
     @Autowired
     private ProductRepository productRepo;
-    
+
     @Override
     public void addOrUpdateCategory(Category category) {
         Session s = this.factory.getObject().getCurrentSession();
@@ -71,17 +71,13 @@ public class CategoryRepositoryImpl implements CategoryRepository{
     @Override
     public Category getCategoryById(int id) {
         Session s = this.factory.getObject().getCurrentSession();
-        
+
         Category category = s.get(Category.class, id);
-        
-        if(category == null)
+
+        if (category == null) {
             throw new EntityNotFoundException("Không tìm thấy category: " + id);
-        
-        Map<String, String> params = new HashMap<>();
-        params.put("cateId", category.getId().toString());
-        
-        category.setProductCollection(this.productRepo.getProducts(params));
-        
+        }
+
         return category;
     }
 
@@ -89,12 +85,17 @@ public class CategoryRepositoryImpl implements CategoryRepository{
     public void deleteCategory(int id) {
         Session s = this.factory.getObject().getCurrentSession();
         Category category = this.getCategoryById(id);
-        
-        if(!category.getProductCollection().isEmpty())
+
+        Map<String, String> params = new HashMap<>();
+        params.put("cateId", category.getId().toString());
+
+        category.setProductCollection(this.productRepo.getProducts(params));
+
+        if (!category.getProductCollection().isEmpty()) {
             throw new IllegalStateException("Tồn tại sản phẩm trong danh mục này!");
-        
-        System.out.println(1);
+        }
+
         s.delete(category);
     }
-    
+
 }

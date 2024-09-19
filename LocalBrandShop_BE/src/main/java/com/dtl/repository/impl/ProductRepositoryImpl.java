@@ -9,6 +9,7 @@ import com.dtl.repository.ProductRepository;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import javax.persistence.EntityNotFoundException;
 import javax.persistence.Query;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -29,6 +30,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class ProductRepositoryImpl implements ProductRepository {
 
     private static final int PAGE_SIZE = 8;
+    private int totalProduct = 0;
     @Autowired
     private LocalSessionFactoryBean factory;
 
@@ -85,16 +87,17 @@ public class ProductRepositoryImpl implements ProductRepository {
         }
 
         Query query = s.createQuery(q);
+        totalProduct = query.getResultList().size();
 
         if (params != null) {
             String page = params.get("page");
-            if (page != null && !page.isEmpty()) {
-                int p = Integer.parseInt(page);
-                int start = (p - 1) * PAGE_SIZE;
+            page = page != null && !page.isEmpty() ? page : "1";
+            
+            int p = Integer.parseInt(page);
+            int start = (p - 1) * PAGE_SIZE;
 
-                query.setFirstResult(start);
-                query.setMaxResults(PAGE_SIZE);
-            }
+            query.setFirstResult(start);
+            query.setMaxResults(PAGE_SIZE);
         }
 
         return query.getResultList();
@@ -104,7 +107,14 @@ public class ProductRepositoryImpl implements ProductRepository {
     @Override
     public Product getProductById(int id) {
         Session s = this.factory.getObject().getCurrentSession();
-        return s.get(Product.class, id);
+
+        Product product = s.get(Product.class, id);
+
+        if (product == null) {
+            throw new EntityNotFoundException("product.notFound.errMsg");
+        }
+
+        return product;
     }
 
     @Override
@@ -112,5 +122,10 @@ public class ProductRepositoryImpl implements ProductRepository {
         Session s = this.factory.getObject().getCurrentSession();
         Product p = this.getProductById(id);
         s.delete(p);
+    }
+
+    @Override
+    public int getTotalProduct() {
+        return this.totalProduct;
     }
 }
