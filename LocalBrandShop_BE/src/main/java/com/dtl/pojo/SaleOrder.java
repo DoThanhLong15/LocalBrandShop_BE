@@ -26,6 +26,10 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.DynamicUpdate;
+import org.hibernate.annotations.UpdateTimestamp;
 
 /**
  *
@@ -40,6 +44,8 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "SaleOrder.findByAddress", query = "SELECT s FROM SaleOrder s WHERE s.address = :address"),
     @NamedQuery(name = "SaleOrder.findByCreatedDate", query = "SELECT s FROM SaleOrder s WHERE s.createdDate = :createdDate"),
     @NamedQuery(name = "SaleOrder.findByUpdatedDate", query = "SELECT s FROM SaleOrder s WHERE s.updatedDate = :updatedDate")})
+@DynamicInsert
+@DynamicUpdate
 public class SaleOrder implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -53,11 +59,13 @@ public class SaleOrder implements Serializable {
     @Size(min = 1, max = 255)
     @Column(name = "address")
     private String address;
-    @Column(name = "created_date")
+    @Column(name = "created_date", updatable = false)
     @Temporal(TemporalType.TIMESTAMP)
+    @CreationTimestamp
     private Date createdDate;
     @Column(name = "updated_date")
     @Temporal(TemporalType.TIMESTAMP)
+    @UpdateTimestamp
     private Date updatedDate;
     @JoinColumn(name = "order_status_id", referencedColumnName = "id")
     @ManyToOne(optional = false)

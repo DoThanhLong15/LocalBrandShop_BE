@@ -72,4 +72,14 @@ public class ProductQuantityRepositoryImpl implements ProductQuantityRepository 
         }
     }
 
+    @Override
+    public void saveProductQuantity(ProductQuantity productQuantity) {
+        Session s = this.factory.getObject().getCurrentSession();
+        if (productQuantity.getId() != null) {
+            s.update(productQuantity);
+        } else {
+            s.save(productQuantity);
+        }
+    }
+
 }
