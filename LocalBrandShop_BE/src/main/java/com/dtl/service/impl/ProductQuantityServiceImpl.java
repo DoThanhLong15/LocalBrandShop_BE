@@ -25,5 +25,15 @@ public class ProductQuantityServiceImpl implements ProductQuantityService{
     public List<ProductQuantity> getProductQuantityByProductId(int productId) {
         return this.productQuantityRepo.getProductQuantityByProductId(productId);
     }
+
+    @Override
+    public ProductQuantity getProductQuantity(int productId, int sizeId) {
+        return this.productQuantityRepo.getProductQuantity(productId, sizeId);
+    }
+
+    @Override
+    public void saveProductQuantity(ProductQuantity productQuantity) {
+        this.productQuantityRepo.saveProductQuantity(productQuantity);
+    }
     
 }

@@ -12,7 +12,10 @@ import java.util.List;
  * @author LONG
  */
 public interface ProductQuantityRepository {
+
     List<ProductQuantity> getProductQuantityByProductId(int productId);
-    
+
     ProductQuantity getProductQuantity(int productId, int sizeId);
+    
+    void saveProductQuantity(ProductQuantity productQuantity);
 }
