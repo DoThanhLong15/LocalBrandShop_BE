@@ -13,4 +13,6 @@ import java.util.List;
  */
 public interface ProductQuantityRepository {
     List<ProductQuantity> getProductQuantityByProductId(int productId);
+    
+    ProductQuantity getProductQuantity(int productId, int sizeId);
 }
