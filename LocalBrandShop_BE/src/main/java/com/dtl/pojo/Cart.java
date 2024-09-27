@@ -19,8 +19,13 @@ import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.DynamicUpdate;
+import org.hibernate.annotations.UpdateTimestamp;
 
 /**
  *
@@ -36,6 +41,8 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Cart.findByCreatedDate", query = "SELECT c FROM Cart c WHERE c.createdDate = :createdDate"),
     @NamedQuery(name = "Cart.findByUpdatedDate", query = "SELECT c FROM Cart c WHERE c.updatedDate = :updatedDate"),
     @NamedQuery(name = "Cart.findByPrice", query = "SELECT c FROM Cart c WHERE c.price = :price")})
+@DynamicInsert
+@DynamicUpdate
 public class Cart implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -45,24 +52,30 @@ public class Cart implements Serializable {
     @Column(name = "id")
     private Integer id;
     @Basic(optional = false)
-    @NotNull
+    @NotNull(message = "{cart.quantity.notNull.errMsg}")
+    @Min(value = 0, message = "{cart.quantity.notNull.errMsg}")
     @Column(name = "quantity")
-    private int quantity;
-    @Column(name = "created_date")
+    private Integer quantity;
+    @Column(name = "created_date", updatable = false)
     @Temporal(TemporalType.TIMESTAMP)
+    @CreationTimestamp
     private Date createdDate;
     @Column(name = "updated_date")
     @Temporal(TemporalType.TIMESTAMP)
+    @UpdateTimestamp
     private Date updatedDate;
     @Basic(optional = false)
-    @NotNull
+    @NotNull(message = "{cart.price.notNull.errMsg}")
     @Column(name = "price")
-    private int price;
+    @Min(value = 0, message = "{cart.price.notNull.errMsg}")
+    private Integer price;
     @JoinColumn(name = "product_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
+    @NotNull(message = "{cart.productId.notNull.errMsg}")
     private Product productId;
     @JoinColumn(name = "product_size_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
+    @NotNull(message = "{cart.productSizeId.notNull.errMsg}")
     private ProductSize productSizeId;
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     @ManyToOne(optional = false)

@@ -23,13 +23,13 @@ public class ErrorResponseUtil {
     @Autowired
     private MessageSource messageSource;
 
-    public ResponseEntity<Object> buildErrorResponse(String messageKey, Locale locale) {
+    public ResponseEntity<Object> buildErrorResponse(String messageKey, Locale locale, HttpStatus status) {
         Map<String, Object> response = new HashMap<>();
         response.put("error", messageSource.getMessage(messageKey, null, locale));
-        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(response, status);
     }
     
-    public ResponseEntity<Object> buildErrorResponse(Map<String, Object> response, Locale locale) {
-        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+    public ResponseEntity<Object> buildErrorResponse(Map<String, Object> response, Locale locale, HttpStatus status) {
+        return new ResponseEntity<>(response, status);
     }
 }

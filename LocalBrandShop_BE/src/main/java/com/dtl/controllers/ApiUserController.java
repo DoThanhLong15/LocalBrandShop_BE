@@ -54,7 +54,7 @@ public class ApiUserController {
             return new ResponseEntity<>(response, HttpStatus.OK);
         }
 
-        return this.errorResponseUtil.buildErrorResponse("user.login.fail.errMsg", locale);
+        return this.errorResponseUtil.buildErrorResponse("user.login.fail.errMsg", locale, HttpStatus.BAD_REQUEST);
     }
 
     @PostMapping("/register")
@@ -69,7 +69,7 @@ public class ApiUserController {
             }
             response.put("error", errors);
 
-            return this.errorResponseUtil.buildErrorResponse(response, locale);
+            return this.errorResponseUtil.buildErrorResponse(response, locale, HttpStatus.BAD_REQUEST);
         }
 
         try {
@@ -82,14 +82,14 @@ public class ApiUserController {
             String exception = ex.getCause().getMessage();
 
             if (exception.contains("email")) {
-                return errorResponseUtil.buildErrorResponse("user.email.exist.errMsg", locale);
+                return errorResponseUtil.buildErrorResponse("user.email.exist.errMsg", locale, HttpStatus.BAD_REQUEST);
             }
 
             if (exception.contains("username")) {
-                return errorResponseUtil.buildErrorResponse("user.username.exist.errMsg", locale);
+                return errorResponseUtil.buildErrorResponse("user.username.exist.errMsg", locale, HttpStatus.BAD_REQUEST);
             }
             
-            return errorResponseUtil.buildErrorResponse("system.errMsg", locale);
+            return errorResponseUtil.buildErrorResponse("system.errMsg", locale, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 

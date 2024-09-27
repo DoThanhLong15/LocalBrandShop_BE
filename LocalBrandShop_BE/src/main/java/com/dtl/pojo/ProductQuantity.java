@@ -9,6 +9,7 @@ import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -65,7 +66,7 @@ public class ProductQuantity implements Serializable {
     @ManyToOne(optional = false)
     private Product productId;
     @JoinColumn(name = "size_id", referencedColumnName = "id", updatable = false)
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, fetch = FetchType.EAGER)
     private ProductSize sizeId;
 
     public ProductQuantity() {

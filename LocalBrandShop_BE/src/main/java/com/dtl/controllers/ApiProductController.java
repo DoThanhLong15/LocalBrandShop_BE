@@ -6,9 +6,11 @@ package com.dtl.controllers;
 
 import com.dtl.DTO.ProductDTO;
 import com.dtl.DTO.ProductDetailDTO;
+import com.dtl.DTO.ProductQuantityDTO;
 import com.dtl.pojo.Product;
 import com.dtl.pojo.ProductImage;
 import com.dtl.service.ProductImageService;
+import com.dtl.service.ProductQuantityService;
 import com.dtl.service.ProductService;
 import com.dtl.service.impl.ProductServiceImpl;
 import java.util.HashMap;
@@ -38,6 +40,8 @@ public class ApiProductController {
     private ProductService productService;
     @Autowired
     private ProductImageService productImageService;
+    @Autowired
+    private ProductQuantityService productQuantityService;
 
     @GetMapping("/")
     @CrossOrigin
@@ -91,6 +95,21 @@ public class ApiProductController {
         product.setProductImageCollection(imageList);
         
         response.put("data", new ProductDetailDTO(product));
+
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+    
+    @GetMapping("/{productId}/quantity")
+    @CrossOrigin
+    public ResponseEntity<Object> getProductDetailQuantity(@PathVariable(value = "productId") int productId) {
+        Map<String, Object> response = new HashMap<>();
+
+        List<ProductQuantityDTO> productQuantityList = this.productQuantityService.getProductQuantityByProductId(productId)
+                .stream()
+                .map(quantity -> new ProductQuantityDTO(quantity))
+                .collect(Collectors.toList());
+        
+        response.put("data", productQuantityList);
 
         return new ResponseEntity<>(response, HttpStatus.OK);
     }

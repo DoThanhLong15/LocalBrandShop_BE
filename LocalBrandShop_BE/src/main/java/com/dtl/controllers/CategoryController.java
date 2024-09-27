@@ -32,18 +32,19 @@ import org.springframework.web.bind.annotation.RequestParam;
 @Controller
 @RequestMapping("/categories")
 public class CategoryController {
+
     @Autowired
     private CategoryService cateService;
     @Autowired
     private ErrorResponseUtil errorResponseUtil;
-    
+
     @GetMapping("/list")
     public String categoryList(Model model, @RequestParam Map<String, String> params) {
         model.addAttribute("categories", this.cateService.getCategories(params));
 
         return "categoryList";
     }
-    
+
     @GetMapping("/form")
     public String categoryForm(Model model) {
         model.addAttribute("category", new Category());
@@ -57,18 +58,18 @@ public class CategoryController {
 
         return "categoryForm";
     }
-    
+
     @PostMapping("/form/save")
     public String categorySave(Model model, @ModelAttribute(value = "category") @Valid Category category,
             BindingResult rs) {
-        
+
         if (rs.hasErrors()) {
             return "categoryForm";
         }
 
         try {
             this.cateService.addOrUpdateCategory(category);
-            
+
             return "redirect:/categories/list";
         } catch (Exception ex) {
             model.addAttribute("errMsg", ex.getMessage());
@@ -76,21 +77,10 @@ public class CategoryController {
 
         return "categoryForm";
     }
-    
+
     @DeleteMapping("/{id}")
     public ResponseEntity<Object> deleteCategory(@PathVariable("id") int id, Locale locale) {
-        try {
-            this.cateService.deleteCategory(id);
-            return ResponseEntity.noContent().build();
-        } catch (EntityNotFoundException ex) {
-            System.out.println(ex.getMessage());
-            return errorResponseUtil.buildErrorResponse("category.notFound.errMsg", locale);
-        } catch (IllegalStateException ex) {
-            System.out.println(ex.getMessage());
-            return errorResponseUtil.buildErrorResponse("category.hasProduct.errMsg", locale);
-        } catch (Exception ex) {
-            System.out.println(ex.getMessage());
-            return errorResponseUtil.buildErrorResponse("system.errMsg", locale);
-        }
+        this.cateService.deleteCategory(id);
+        return ResponseEntity.noContent().build();
     }
 }

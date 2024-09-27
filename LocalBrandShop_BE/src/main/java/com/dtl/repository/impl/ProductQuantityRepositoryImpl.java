@@ -6,7 +6,9 @@ package com.dtl.repository.impl;
 
 import com.dtl.pojo.ProductQuantity;
 import com.dtl.repository.ProductQuantityRepository;
+import java.util.ArrayList;
 import java.util.List;
+import javax.persistence.NoResultException;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
@@ -23,8 +25,8 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Repository
 @Transactional
-public class ProductQuantityRepositoryImpl implements ProductQuantityRepository{
-    
+public class ProductQuantityRepositoryImpl implements ProductQuantityRepository {
+
     @Autowired
     private LocalSessionFactoryBean factory;
 
@@ -40,5 +42,34 @@ public class ProductQuantityRepositoryImpl implements ProductQuantityRepository{
 
         return s.createQuery(query).getResultList();
     }
-    
+
+    @Override
+    public ProductQuantity getProductQuantity(int productId, int sizeId) {
+        Session s = this.factory.getObject().getCurrentSession();
+        CriteriaBuilder b = s.getCriteriaBuilder();
+        CriteriaQuery<ProductQuantity> q = b.createQuery(ProductQuantity.class);
+        Root root = q.from(ProductQuantity.class);
+        q.select(root);
+
+        List<Predicate> predicates = new ArrayList<>();
+
+        if (productId > 0) {
+            Predicate p = b.equal(root.get("productId"), productId);
+            predicates.add(p);
+        }
+
+        if (sizeId > 0) {
+            Predicate p = b.equal(root.get("sizeId"), sizeId);
+            predicates.add(p);
+        }
+
+        q.where(predicates.toArray(Predicate[]::new));
+
+        try {
+            return s.createQuery(q).getSingleResult();
+        } catch (NoResultException ex) {
+            return null;
+        }
+    }
+
 }

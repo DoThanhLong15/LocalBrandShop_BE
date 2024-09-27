@@ -8,6 +8,7 @@ import com.dtl.components.ErrorResponseUtil;
 import java.util.Locale;
 import javax.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -35,6 +36,6 @@ public class HomeController {
     @ExceptionHandler(EntityNotFoundException.class)
     public ResponseEntity<Object> handleEntityNotFoundException(Exception ex, Locale locale) {
         System.out.println(ex.getMessage());
-        return errorResponseUtil.buildErrorResponse(ex.getMessage(), locale);
+        return errorResponseUtil.buildErrorResponse(ex.getMessage(), locale, HttpStatus.NOT_FOUND);
     }
 }

@@ -8,6 +8,7 @@ import com.dtl.formatters.CategoryFormatter;
 import com.dtl.formatters.DatetimeFormatter;
 import com.dtl.formatters.ProductFormatter;
 import com.dtl.formatters.ProductSizeFormatter;
+import com.dtl.formatters.UserFormatter;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -86,5 +87,6 @@ public class WebApplicationContextConfig implements WebMvcConfigurer {
         registry.addFormatter(new CategoryFormatter());
         registry.addFormatter(new DatetimeFormatter());
         registry.addFormatter(new ProductFormatter());
+        registry.addFormatter(new UserFormatter());
     }
 }
