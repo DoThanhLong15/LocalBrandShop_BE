@@ -9,11 +9,13 @@ import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Date;
+import org.springframework.stereotype.Component;
 
 /**
  *
  * @author LONG
  */
+@Component
 public class TimeCheckUtil {
 
     public static boolean isWithinLast24Hours(Date createdDate) {

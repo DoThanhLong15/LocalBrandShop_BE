@@ -90,7 +90,7 @@ public class CartServiceImpl implements CartService {
 
     @Override
     public boolean checkPriceValid(Product product, Cart cart) {
-        return product.getPrice() <= cart.getPrice();
+        return product.getPrice() <= (cart.getPrice() / cart.getQuantity());
     }
 
     @Override

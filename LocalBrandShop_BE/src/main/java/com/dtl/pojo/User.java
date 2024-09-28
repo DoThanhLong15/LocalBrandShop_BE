@@ -110,7 +110,6 @@ public class User implements Serializable {
     private String password;
     @Column(name = "active")
     private Boolean active;
-    @NotNull(message = "{user.role.notNull.errMsg}")
     @Size(max = 50)
     @Column(name = "role")
     private String role;
