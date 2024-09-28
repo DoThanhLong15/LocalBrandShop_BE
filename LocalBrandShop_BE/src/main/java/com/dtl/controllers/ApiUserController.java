@@ -22,9 +22,11 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -57,9 +59,11 @@ public class ApiUserController {
         return this.errorResponseUtil.buildErrorResponse("user.login.fail.errMsg", locale, HttpStatus.BAD_REQUEST);
     }
 
-    @PostMapping("/register")
+    @PostMapping(path = "/register",
+            consumes = {MediaType.MULTIPART_FORM_DATA_VALUE}, 
+            produces = {MediaType.APPLICATION_JSON_VALUE})
     @CrossOrigin
-    public ResponseEntity<Object> register(@Valid @RequestBody User user, BindingResult bindingResult, Locale locale) {
+    public ResponseEntity<Object> register(@Valid @ModelAttribute User user, BindingResult bindingResult, Locale locale) {
         Map<String, Object> response = new HashMap<>();
 
         if (bindingResult.hasErrors()) {

@@ -76,6 +76,9 @@ public class JwtSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/api/carts/**").access("hasRole('ROLE_ADMIN') or hasRole('ROLE_USER')");
         
         http.authorizeRequests()
+                .antMatchers("/api/ratings/**").access("hasRole('ROLE_ADMIN') or hasRole('ROLE_USER')");
+        
+        http.authorizeRequests()
                 .antMatchers("/api/sale-orders/**").access("hasRole('ROLE_ADMIN') or hasRole('ROLE_USER')");
         
         http.authorizeRequests()

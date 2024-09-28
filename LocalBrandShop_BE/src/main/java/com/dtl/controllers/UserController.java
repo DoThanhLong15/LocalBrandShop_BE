@@ -55,6 +55,9 @@ public class UserController {
     public String userForm(Model model, @ModelAttribute(value = "user") @Valid User user,
             BindingResult rs) {
         System.out.println(user);
+        if(user.getRole() == null || user.getRole().isEmpty()){
+            user.setRole("ROLE_USER");
+        }
         
         if (rs.hasErrors()) {
             return "userForm";
