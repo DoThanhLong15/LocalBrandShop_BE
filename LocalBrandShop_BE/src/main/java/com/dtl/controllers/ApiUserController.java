@@ -26,7 +26,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -98,7 +97,7 @@ public class ApiUserController {
     }
 
     @GetMapping(path = "/users/current-user", produces = MediaType.APPLICATION_JSON_VALUE)
-    @CrossOrigin
+    @CrossOrigin(origins = "http://localhost:3000", allowCredentials = "true")
     public ResponseEntity<Object> getCurrentUser(Principal user) {
         UserDTO u = new UserDTO(this.userService.getUserByUsername(user.getName()));
 
