@@ -8,6 +8,8 @@ Software Foundation//DTD Tiles Configuration 3.0//EN"
         <put-attribute name="title" value="" />
         <put-attribute name="header"
                        value="/WEB-INF/layout/header.jsp" />
+        <put-attribute name="sidebar"
+                       value="/WEB-INF/layout/sidebar.jsp" />
         <put-attribute name="content" value="" />
         <put-attribute name="footer"
                        value="/WEB-INF/layout/footer.jsp" />
@@ -42,5 +44,13 @@ Software Foundation//DTD Tiles Configuration 3.0//EN"
     <definition name="userForm" extends="baseLayout">
         <put-attribute name="title" value="Người dùng" />
         <put-attribute name="content" value="/WEB-INF/pages/user/form.jsp" />
+    </definition>      
+    <definition name="stats" extends="baseLayout">
+        <put-attribute name="title" value="Thống kê" />
+        <put-attribute name="content" value="/WEB-INF/pages/stats.jsp" />
+    </definition>
+    <definition name="statsPeroid" extends="baseLayout">
+        <put-attribute name="title" value="Thống kê giai đoạn" />
+        <put-attribute name="content" value="/WEB-INF/pages/statsRevenueByPeroid.jsp" />
     </definition>
 </tiles-definitions>

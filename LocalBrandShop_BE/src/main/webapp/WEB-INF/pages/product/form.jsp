@@ -10,7 +10,8 @@
 
 <c:url value="/products/form/save" var="action" />
 
-<h1 class="text-center text-primary mt-3">QUẢN LÝ SẢN PHẨM</h1>
+<div style="background-color: #fff; border-radius: 8px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); padding: 20px;">
+<h1 style="color: #000; margin-bottom: 20px;">Quản lý sản phẩm</h1>
 <c:if test="${errMsg != null}">
     <div class="alert alert-danger">
         ${errMsg}
@@ -113,7 +114,7 @@
         </button>
     </div>
 </form:form>
-
+</div>
 <!--<script src="<c:url value="/js/UploadImage.js" />"></script>-->
 <script>
     Dropzone.autoDiscover = false;
