@@ -1,12 +1,21 @@
 <%-- 
-    Document   : home
-    Created on : Aug 13, 2024, 2:53:35 PM
-    Author     : LONG
+    Document   : 
+    Created on : Sep 30, 2024, 5:51:24 PM
+    Author     : nhanl
 --%>
 
+
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+
 <!DOCTYPE html>
 
-<h1 class="text-center text-primary mt-1">home</h1>
+
+<div class="content maincontent">
+    <h1>Vui lòng chọn chức năng bạn muốn thực hiện</h1>
+</div>
+
+
+
+
+
+

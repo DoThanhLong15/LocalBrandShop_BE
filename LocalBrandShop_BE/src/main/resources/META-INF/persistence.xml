@@ -14,6 +14,7 @@
     <class>com.dtl.pojo.OrderDetail</class>
     <class>com.dtl.pojo.SaleOrderStatus</class>
     <class>com.dtl.pojo.Rating</class>
+    <class>com.dtl.controllers.TestController</class>
     <exclude-unlisted-classes>false</exclude-unlisted-classes>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/localbrandshop"/>

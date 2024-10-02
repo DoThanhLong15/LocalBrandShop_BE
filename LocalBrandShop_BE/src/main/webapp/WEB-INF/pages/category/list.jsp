@@ -12,43 +12,45 @@
 <c:url value="/categories/form" var="category_form" />
 
 
-<h1 class="text-center text-primary mt-3">DANH SÁCH DANH MỤC</h1>
-<div class="row">
-    <div class="col-md-2 col-12 bg-secondary">
+<div style="background-color: #fff; border-radius: 8px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); padding: 20px;">
+    <h1 style="color: #000; margin-bottom: 20px;">Danh sách danh mục</h1>
 
-        <form action="${category_list}">
-            <div class="mb-3 mt-3">
-                <label for="kw" class="form-label">Tên danh mục</label>
-                <input type="text" class="form-control" id="kw" placeholder="Tên danh mục..." name="q">
-            </div>
-            <div class="mb-3 mt-3">
-                <button class="btn btn-info" type="submit">Tìm kiếm</button>
-            </div>
-        </form>
-    </div>
-    <div class="col-md-10 col-12">
-        <a class="btn btn-info m-1" href="${category_form}" />Thêm danh mục</a>
-        <table class="table table-striped">
-            <tr>
-                <th>Id</th>
-                <th>Tên danh mục</th>
-                <th></th>
-            </tr>
-            <c:forEach items="${categories}" var="category">
-                <tr id="category-${category.id}">
-                    <td>${category.id}</td>
-                    <td>${category.name}</td>
-                    <td>
-                        <a href="${category_form}/${category.id}" class="btn btn-primary">Sửa</a>
-                        
-                        <c:url value="/categories/${category.id}" var="endpoint" />
-                        <button onclick="deleteItem('${endpoint}', ${category.id}, 'category')" class="btn btn-danger">Xóa</button>
-                    </td>
+    <div class="row">
+        <div class="col-md-2 col-12 bg-secondary">
+
+            <form action="${category_list}">
+                <div class="mb-3 mt-3">
+                    <label for="kw" class="form-label">Tên danh mục</label>
+                    <input type="text" class="form-control" id="kw" placeholder="Tên danh mục..." name="q">
+                </div>
+                <div class="mb-3 mt-3">
+                    <button class="btn btn-info" type="submit">Tìm kiếm</button>
+                </div>
+            </form>
+        </div>
+        <div class="col-md-10 col-12">
+            <a class="btn btn-info m-1" href="${category_form}"/>Thêm danh mục</a>
+            <table class="table table-striped">
+                <tr>
+                    <th>Id</th>
+                    <th>Tên danh mục</th>
+                    <th></th>
                 </tr>
-            </c:forEach>
-        </table>
+                <c:forEach items="${categories}" var="category">
+                    <tr id="category-${category.id}">
+                        <td>${category.id}</td>
+                        <td>${category.name}</td>
+                        <td>
+                            <a href="${category_form}/${category.id}" class="btn btn-primary">Sửa</a>
+
+                            <c:url value="/categories/${category.id}" var="endpoint" />
+                            <button onclick="deleteItem('${endpoint}', ${category.id}, 'category')" class="btn btn-danger">Xóa</button>
+                        </td>
+                    </tr>
+                </c:forEach>
+            </table>
+        </div>
     </div>
 </div>
 
-        
 <script src="<c:url value="/js/Utils.js" />"></script>

@@ -11,79 +11,81 @@
 <c:url value="/users/form/save" var="action" />
 <c:set value="ROLE_ADMIN,ROLE_USER" var="roleList" />
 
-<h1 class="text-center text-primary mt-3">QUẢN LÝ NGƯỜI DÙNG</h1>
-<c:if test="${errMsg != null}">
-    <div class="alert alert-danger">
-        ${errMsg}
-    </div>
-</c:if>
-<form:form method="post" enctype="multipart/form-data" action="${action}" modelAttribute="user">
-    <form:errors path="*" element="div" cssClass="alert alert-danger" />
+<div style="background-color: #fff; border-radius: 8px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); padding: 20px;">
+    <h1 style="color: #000; margin-bottom: 20px;">Quản lý người dùng</h1>
+    <c:if test="${errMsg != null}">
+        <div class="alert alert-danger">
+            ${errMsg}
+        </div>
+    </c:if>
+    <form:form method="post" enctype="multipart/form-data" action="${action}" modelAttribute="user">
+        <form:errors path="*" element="div" cssClass="alert alert-danger" />
 
-    <div class="mb-3 mt-3">
-        <label for="firstName" class="form-label">Tên người dùng</label>
-        <form:input path="firstName" type="text" class="form-control" id="firstName" placeholder="Tên người dùng..." name="firstName" />
+        <div class="mb-3 mt-3">
+            <label for="firstName" class="form-label">Tên người dùng</label>
+            <form:input path="firstName" type="text" class="form-control" id="firstName" placeholder="Tên người dùng..." name="firstName" />
 
-    </div>
-    <div class="mb-3 mt-3">
-        <label for="lastName" class="form-label">Họ và tên lót</label>
-        <form:input path="lastName" type="text" class="form-control" id="lastName" placeholder="Họ và tên lót..." name="lastName" />
-    </div>
-    <div class="mb-3 mt-3">
-        <label for="email" class="form-label">Email</label>
-        <form:input path="email" type="text" class="form-control" id="email" placeholder="Email..." name="email" />
-    </div>
-    <div class="mb-3 mt-3">
-        <label for="phone" class="form-label">Số điện thoại</label>
-        <form:input path="phone" type="text" class="form-control" id="phone" placeholder="Số điện thoại..." name="phone" />
-    </div>
-    <div class="mb-3 mt-3">
-        <label for="address" class="form-label">Địa chỉ</label>
-        <form:input path="address" type="text" class="form-control" id="address" placeholder="Địa chỉ..." name="address" />
-    </div>
-    <div class="mb-3 mt-3">
-        <label for="username" class="form-label">Tên đăng nhập</label>
-        <form:input path="username" type="text" class="form-control" id="username" placeholder="Tên đăng nhập..." name="username" />
-    </div>
-    <c:choose>
-        <c:when test="${user.id != null}">
-            <form:hidden path="password" />
-        </c:when>
-        <c:otherwise>
-            <div class="mb-3 mt-3">
-                <label for="password" class="form-label">Mật khẩu</label>
-                <form:input path="password" type="password" class="form-control" id="password" placeholder="Mật khẩu..." name="password" />
-            </div>
-        </c:otherwise>
-    </c:choose>
-    <div class="mb-3 mt-3">
-        <label class="form-label">Vai trò</label>
-        <form:select class="form-select" path="role">
-            <option value="noRole" disabled selected>Chọn vai trò</option>
-            <c:forEach items="${roleList}" var="role">
+        </div>
+        <div class="mb-3 mt-3">
+            <label for="lastName" class="form-label">Họ và tên lót</label>
+            <form:input path="lastName" type="text" class="form-control" id="lastName" placeholder="Họ và tên lót..." name="lastName" />
+        </div>
+        <div class="mb-3 mt-3">
+            <label for="email" class="form-label">Email</label>
+            <form:input path="email" type="text" class="form-control" id="email" placeholder="Email..." name="email" />
+        </div>
+        <div class="mb-3 mt-3">
+            <label for="phone" class="form-label">Số điện thoại</label>
+            <form:input path="phone" type="text" class="form-control" id="phone" placeholder="Số điện thoại..." name="phone" />
+        </div>
+        <div class="mb-3 mt-3">
+            <label for="address" class="form-label">Địa chỉ</label>
+            <form:input path="address" type="text" class="form-control" id="address" placeholder="Địa chỉ..." name="address" />
+        </div>
+        <div class="mb-3 mt-3">
+            <label for="username" class="form-label">Tên đăng nhập</label>
+            <form:input path="username" type="text" class="form-control" id="username" placeholder="Tên đăng nhập..." name="username" />
+        </div>
+        <c:choose>
+            <c:when test="${user.id != null}">
+                <form:hidden path="password" />
+            </c:when>
+            <c:otherwise>
+                <div class="mb-3 mt-3">
+                    <label for="password" class="form-label">Mật khẩu</label>
+                    <form:input path="password" type="password" class="form-control" id="password" placeholder="Mật khẩu..." name="password" />
+                </div>
+            </c:otherwise>
+        </c:choose>
+        <div class="mb-3 mt-3">
+            <label class="form-label">Vai trò</label>
+            <form:select class="form-select" path="role">
+                <option value="noRole" disabled selected>Chọn vai trò</option>
+                <c:forEach items="${roleList}" var="role">
+                    <c:choose>
+                        <c:when test="${user.role == role}" >
+                            <option value="${role}" selected>${role}</option>
+                        </c:when>
+                        <c:otherwise>
+                            <option value="${role}">${role}</option>
+                        </c:otherwise>
+                    </c:choose>
+                </c:forEach>
+            </form:select>
+        </div>
+        <div class="mb-3 mt-3">
+            <form:hidden path="id" />
+            <form:hidden path="active" />
+            <button class="btn btn-success" type="submit">
                 <c:choose>
-                    <c:when test="${user.role == role}" >
-                        <option value="${role}" selected>${role}</option>
+                    <c:when test="${user.id != null}">
+                        Cập nhật người dùng
                     </c:when>
                     <c:otherwise>
-                        <option value="${role}">${role}</option>
+                        Thêm người dùng
                     </c:otherwise>
                 </c:choose>
-            </c:forEach>
-        </form:select>
-    </div>
-    <div class="mb-3 mt-3">
-        <form:hidden path="id" />
-        <form:hidden path="active" />
-        <button class="btn btn-success" type="submit">
-            <c:choose>
-                <c:when test="${user.id != null}">
-                    Cập nhật người dùng
-                </c:when>
-                <c:otherwise>
-                    Thêm người dùng
-                </c:otherwise>
-            </c:choose>
-        </button>
-    </div>
-</form:form>
+            </button>
+        </div>
+    </form:form>
+</div>
